@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin · Produtos</title>
+</head>
+<body>
+  <h1>Novo Produto</h1>
+
+  <input id="titulo" placeholder="Título" />
+  <input id="preco" type="number" placeholder="Preço" />
+  <input id="tamanho" placeholder="Tamanho" />
+  <input id="foto" placeholder="URL da foto" />
+  <textarea id="descricao" placeholder="Descrição"></textarea>
+
+  <button id="salvar">Salvar</button>
+  <p id="msg"></p>
+
+  <script type="module">
+    import { auth, db } from "./firebase.js";
+    import {
+      collection, addDoc, serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    import {
+      onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+    onAuthStateChanged(auth, user => {
+      if (!user) location.href = "admin.html";
+    });
+
+    document.getElementById("salvar").onclick = async () => {
+      try {
+        await addDoc(collection(db, "produtos"), {
+          titulo: titulo.value,
+          preco: Number(preco.value),
+          tamanho: tamanho.value,
+          descricao: descricao.value,
+          fotos: [foto.value],
+          status: "disponivel",
+          criadoEm: serverTimestamp()
+        });
+        msg.innerText = "Produto salvo";
+      } catch (e) {
+        msg.innerText = "Erro ao salvar";
+      }
+    };
+  </script>
+</body>
+</html>
