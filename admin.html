@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin · Roupinhas do Átila</title>
+</head>
+<body>
+  <h1>Login Admin</h1>
+
+  <input id="email" placeholder="Email" />
+  <input id="password" type="password" placeholder="Senha" />
+  <button id="login">Entrar</button>
+
+  <p id="status"></p>
+
+  <script type="module">
+    import { auth, db } from "./firebase.js";
+    import {
+      signInWithEmailAndPassword,
+      onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import {
+      doc, getDoc
+    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    const status = document.getElementById("status");
+
+    document.getElementById("login").onclick = async () => {
+      try {
+        await signInWithEmailAndPassword(
+          auth,
+          email.value,
+          password.value
+        );
+      } catch (e) {
+        status.innerText = "Erro no login";
+      }
+    };
+
+    onAuthStateChanged(auth, async user => {
+      if (!user) return;
+
+      const ref = doc(db, "users", user.uid);
+      const snap = await getDoc(ref);
+
+      if (snap.exists() && snap.data().role === "admin") {
+        window.location.href = "admin-produtos.html";
+      } else {
+        status.innerText = "Usuário não é admin";
+      }
+    });
+  </script>
+</body>
+</html>
