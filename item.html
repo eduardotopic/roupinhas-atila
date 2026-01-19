@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Item</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header class="topbar topbar-item">
+  <button class="back" onclick="history.back()">← Voltar</button>
+  <div class="title-mini">Roupinhas do Átila 👶</div>
+</header>
+
+<main class="pdp">
+  <div class="pdp-media">
+    <img id="pdpImg" src="https://picsum.photos/400/400?loading" alt="Foto do item">
+  </div>
+
+  <h2 id="pdpTitle" class="pdp-title">Carregando...</h2>
+  <p id="pdpSize" class="pdp-muted"></p>
+  <p id="pdpPrice" class="pdp-price"></p>
+
+  <div id="reservedBox" class="reservedBox" style="display:none;">
+    <strong>Este item está reservado 💛</strong><br>
+    Outra pessoa já demonstrou interesse e estamos em negociação.<br>
+    Se não for vendido, ele pode voltar a ficar disponível em breve.
+  </div>
+
+  <p id="pdpDesc" class="pdp-desc"></p>
+
+  <button id="buyBtn" class="buy">
+    Comprar pelo WhatsApp
+  </button>
+</main>
+
+<script type="module">
+  import { db } from "./firebase.js";
+  import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+  function formatBRL(value) {
+    try {
+      return new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(value);
+    } catch {
+      return `R$ ${value}`;
+    }
+  }
+
+  const params = new URLSearchParams(location.search);
+  const id = params.get("id");
+
+  const imgEl = document.getElementById("pdpImg");
+  const titleEl = document.getElementById("pdpTitle");
+  const sizeEl = document.getElementById("pdpSize");
+  const priceEl = document.getElementById("pdpPrice");
+  const descEl = document.getElementById("pdpDesc");
+  const reservedBox = document.getElementById("reservedBox");
+  const buyBtn = document.getElementById("buyBtn");
+
+  if (!id) {
+    titleEl.textContent = "Item não encontrado";
+    buyBtn.disabled = true;
+  } else {
+    const ref = doc(db, "produtos", id);
+    const snap = await getDoc(ref);
+
+    if (!snap.exists()) {
+      titleEl.textContent = "Item não encontrado";
+      buyBtn.disabled = true;
+    } else {
+      const p = snap.data();
+      const fotos = Array.isArray(p.fotos) ? p.fotos.filter(Boolean) : [];
+
+      imgEl.src = fotos[0] || "https://picsum.photos/400/400?fallback";
+      titleEl.textContent = p.titulo || "Sem título";
+      sizeEl.textContent = `Tamanho: ${p.tamanho || "-"}`;
+      priceEl.textContent = formatBRL(p.preco ?? 0);
+      descEl.textContent = p.descricao || "";
+
+      if (p.status === "reservado") {
+        reservedBox.style.display = "block";
+      }
+
+      // WhatsApp (por enquanto só com link do item)
+      const siteUrl = location.origin + location.pathname.replace("item.html", "") + `item.html?id=${id}`;
+      const msg = encodeURIComponent(
+        `Olá! Tenho interesse neste item:\n${titleEl.textContent}\n${siteUrl}`
+      );
+
+      // TODO: trocar pelo número da sua esposa
+      const phone = "55SEU_NUMERO_AQUI";
+      buyBtn.onclick = () => {
+        window.open(`https://wa.me/${phone}?text=${msg}`, "_blank");
+      };
+    }
+  }
+</script>
+
+</body>
+</html>

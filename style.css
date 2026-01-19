@@ -1,1 +1,87 @@
-/* Add styles here */
+:root {
+  --bg: #f7f9fc;
+  --card-bg: #ffffff;
+  --primary: #4f8cff;
+  --secondary: #6fcf97;
+  --reserved: #f2c94c;
+  --text: #333333;
+  --muted: #777777;
+  --radius: 16px;
+}
+
+.topbar-item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap: 10px;
+}
+
+.back{
+  background: rgba(255,255,255,.2);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 8px 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.title-mini{
+  font-weight: 700;
+  font-size: 14px;
+  opacity: .95;
+}
+
+.pdp{
+  padding: 16px;
+}
+
+.pdp-media img{
+  width: 100%;
+  border-radius: var(--radius);
+}
+
+.pdp-title{
+  margin-top: 12px;
+  font-size: 20px;
+}
+
+.pdp-muted{
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+.pdp-price{
+  font-weight: 800;
+  margin: 10px 0;
+  font-size: 18px;
+}
+
+.reservedBox{
+  margin: 10px 0;
+  padding: 12px;
+  border-radius: 14px;
+  background: rgba(242, 201, 76, .35);
+}
+
+.pdp-desc{
+  margin-top: 10px;
+  line-height: 1.35;
+}
+
+.buy{
+  margin-top: 16px;
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 16px;
+  background: #25D366;
+  color: white;
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+}
+.buy:disabled{
+  opacity:.6;
+  cursor:not-allowed;
+}
