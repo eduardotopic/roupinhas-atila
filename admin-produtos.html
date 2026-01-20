@@ -3,442 +3,314 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Admin · Produtos</title>
-
+  <title>Admin - Produtos</title>
+  <link rel="stylesheet" href="./style.css" />
   <style>
-    :root{
-      --bg:#0b0b10;
-      --card: rgba(255,255,255,.08);
-      --card2: rgba(255,255,255,.06);
-      --text: rgba(255,255,255,.92);
-      --muted: rgba(255,255,255,.65);
-      --border: rgba(255,255,255,.14);
-      --accent:#6ee7ff;
-      --accent2:#a78bfa;
-      --danger:#ff5a7a;
-      --ok:#34d399;
-      --radius:18px;
-      --shadow:0 20px 60px rgba(0,0,0,.55);
+    .admin-wrap{ max-width: 980px; margin: 0 auto; padding: 16px; }
+    .admin-top{
+      display:flex; gap:12px; align-items:center; justify-content:space-between;
+      margin: 10px 0 16px;
     }
-
-    *{ box-sizing:border-box; }
-    html,body{ height:100%; }
-
-    body{
-      margin:0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
-      color:var(--text);
-      background:
-        radial-gradient(900px 500px at 10% 0%, rgba(167,139,250,.25), transparent 60%),
-        radial-gradient(800px 500px at 90% 10%, rgba(110,231,255,.18), transparent 55%),
-        radial-gradient(900px 600px at 40% 100%, rgba(52,211,153,.12), transparent 60%),
-        var(--bg);
-      padding: env(safe-area-inset-top) 16px env(safe-area-inset-bottom);
-      display:grid;
-      place-items:start center;
-    }
-
-    .wrap{ width:min(520px, 100%); padding:14px; }
-
-    .top{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      margin: 8px 6px 14px;
-    }
-
-    .title{
-      display:flex;
-      align-items:center;
-      gap:10px;
-    }
-
-    .badge{
-      width:40px;
-      height:40px;
-      border-radius:14px;
-      background: linear-gradient(135deg, rgba(110,231,255,.22), rgba(167,139,250,.22));
-      border:1px solid var(--border);
-      display:grid;
-      place-items:center;
-      font-size:20px;
-    }
-
-    h1{ font-size:18px; margin:0; }
-    .sub{ font-size:12px; color:var(--muted); }
-
-    .btn-ghost{
-      border:1px solid var(--border);
+    .pill{
+      font-size: 12px; padding: 6px 10px; border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.14);
       background: rgba(255,255,255,.06);
-      color:var(--text);
-      padding:10px 12px;
-      border-radius:14px;
-      font-weight:700;
-      cursor:pointer;
     }
-
-    .card{
-      background: linear-gradient(180deg, var(--card), var(--card2));
-      border:1px solid var(--border);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-      padding:16px;
-      backdrop-filter: blur(10px);
+    .row{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+    .btn{
+      padding: 10px 12px; border-radius: 12px; border: 1px solid rgba(0,0,0,.12);
+      background: #fff; cursor:pointer; font-weight: 800;
     }
-
-    label{
-      display:block;
-      font-size:13px;
-      color:var(--muted);
-      margin:12px 2px 6px;
+    .btn-primary{ background: #111218; color:#fff; border: 1px solid rgba(255,255,255,.14); }
+    .btn-danger{ background: #ffefef; border-color: rgba(255,0,0,.25); }
+    .btn-ghost{ background: transparent; }
+    .grid-admin{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
     }
+    @media(min-width: 760px){
+      .grid-admin{ grid-template-columns: 1fr 1fr; }
+    }
+    .card-admin{
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 16px;
+      padding: 12px;
+      display:flex;
+      gap: 12px;
+      align-items:flex-start;
+    }
+    .thumb{
+      width: 92px; height: 92px; border-radius: 14px; object-fit: cover;
+      background: rgba(255,255,255,.08);
+      flex: 0 0 auto;
+    }
+    .meta{ flex: 1; min-width: 0; }
+    .title{ font-weight: 900; margin: 0 0 4px; }
+    .sub{ opacity:.75; font-size: 13px; margin: 0 0 8px; }
+    .price{ font-weight: 900; margin: 0 0 10px; }
+    .tag{
+      display:inline-block;
+      font-size: 11px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      margin-right: 6px;
+    }
+    .tag.ok{ border-color: rgba(37,211,102,.35); }
+    .tag.warn{ border-color: rgba(255,193,7,.35); }
+    .tag.bad{ border-color: rgba(255,0,0,.35); }
 
-    input, select, textarea{
-      width:100%;
-      padding:14px;
-      border-radius:14px;
-      border:1px solid var(--border);
-      background: rgba(0,0,0,.25);
-      color:var(--text);
-      font-size:16px;
+    /* Login box */
+    .loginBox{
+      max-width: 520px; margin: 0 auto; padding: 16px;
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 18px;
+      background: rgba(255,255,255,.04);
+    }
+    .loginBox input{
+      width:100%; padding: 12px 12px; border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: inherit;
+      margin-top: 8px;
       outline:none;
     }
-
-    textarea{ min-height:90px; resize:vertical; }
-
-    .grid{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap:12px;
-    }
-
-    @media (max-width:420px){
-      .grid{ grid-template-columns:1fr; }
-    }
-
-    .upload{
-      margin-top:8px;
-      padding:12px;
-      border-radius:16px;
-      border:1px dashed rgba(255,255,255,.22);
-      background: rgba(0,0,0,.18);
-    }
-
-    .hint{
-      margin-top:8px;
-      font-size:12px;
-      color: rgba(255,255,255,.55);
-      line-height: 1.35;
-    }
-
-    .previews{
-      display:grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap:10px;
-      margin-top:10px;
-    }
-
-    .preview{
-      height:90px;
-      border-radius:14px;
-      overflow:hidden;
-      border:1px solid var(--border);
-      background: rgba(255,255,255,.06);
-      position: relative;
-    }
-
-    .preview img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      display:block;
-    }
-
-    .progress{
-      margin-top: 10px;
-      width: 100%;
-      height: 10px;
-      border-radius: 999px;
-      background: rgba(255,255,255,.10);
-      overflow:hidden;
-      border: 1px solid rgba(255,255,255,.12);
-      display:none;
-    }
-    .bar{
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-    }
-
-    .btn{
-      width:100%;
-      margin-top:14px;
-      padding:14px;
-      border-radius:14px;
-      border:0;
-      cursor:pointer;
-      font-weight:800;
-      font-size:16px;
-      color:#0b0b10;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-    }
-    .btn[disabled]{ opacity:.65; cursor:not-allowed; }
-
-    .msg{
-      margin-top:12px;
-      font-size:13px;
-      min-height:18px;
-      color:var(--muted);
-    }
-    .msg.err{ color:var(--danger); }
-    .msg.ok{ color:var(--ok); }
-
-    .footer{
-      margin-top:12px;
-      text-align:center;
-      font-size:12px;
-      color: rgba(255,255,255,.45);
-    }
+    .muted{ opacity:.75; font-size: 13px; }
+    .hidden{ display:none !important; }
   </style>
 </head>
-
 <body>
-  <div class="wrap">
-    <div class="top">
-      <div class="title">
-        <div class="badge">🧺</div>
-        <div>
-          <h1>Novo produto</h1>
-          <div class="sub">Cadastro (admin)</div>
-        </div>
+  <div class="admin-wrap">
+    <div class="admin-top">
+      <div class="row">
+        <a class="btn btn-ghost" href="./index.html" style="text-decoration:none;">← Voltar</a>
+        <span class="pill">Admin</span>
+        <span id="who" class="pill">Deslogado</span>
       </div>
-      <button id="logout" class="btn-ghost">Sair</button>
+      <div class="row">
+        <button id="btnRefresh" class="btn">Atualizar</button>
+        <button id="btnLogout" class="btn btn-danger hidden">Sair</button>
+      </div>
     </div>
 
-    <div class="card">
-      <label>Título</label>
-      <input id="titulo" placeholder="Ex: Body azul" />
-
-      <div class="grid">
-        <div>
-          <label>Preço (R$)</label>
-          <input id="preco" type="number" step="0.01" placeholder="39.90" />
-        </div>
-        <div>
-          <label>Tamanho</label>
-          <input id="tamanho" placeholder="Ex: 2 anos" />
-        </div>
+    <!-- LOGIN -->
+    <section id="loginSection" class="loginBox">
+      <h2 style="margin:0 0 8px;">Login Admin</h2>
+      <div class="muted">Entre com e-mail e senha do Firebase Authentication.</div>
+      <input id="email" type="email" placeholder="Email" autocomplete="email" />
+      <input id="pass" type="password" placeholder="Senha" autocomplete="current-password" />
+      <div class="row" style="margin-top:12px;">
+        <button id="btnLogin" class="btn btn-primary">Entrar</button>
       </div>
+      <div id="loginErr" class="muted" style="margin-top:10px; color:#ffb4b4;"></div>
+    </section>
 
-      <label>Status</label>
-      <select id="status">
-        <option value="disponivel">Disponível</option>
-        <option value="reservado">Reservado</option>
-        <option value="vendido">Vendido</option>
-      </select>
-
-      <label>Fotos (1 a 3)</label>
-      <div class="upload">
-        <input id="fotoFiles" type="file" accept="image/*" multiple />
-        <div class="hint">No celular: selecione da galeria ou use a câmera. Máx. 3 fotos.</div>
-        <div class="previews" id="previews"></div>
-
-        <div class="progress" id="progress">
-          <div class="bar" id="bar"></div>
-        </div>
+    <!-- ADMIN LISTA -->
+    <section id="adminSection" class="hidden">
+      <h2 style="margin:0 0 12px;">Produtos</h2>
+      <div class="muted" style="margin-bottom:12px;">
+        Dica: “Vendido” continua visível aqui, mas some para clientes.
       </div>
-
-      <label>Descrição</label>
-      <textarea id="descricao" placeholder="Observações sobre o produto"></textarea>
-
-      <button id="salvar" class="btn">Salvar produto</button>
-      <div id="msg" class="msg"></div>
-    </div>
-
-    <div class="footer">Roupinhas do Átila · Admin</div>
+      <div id="grid" class="grid-admin"></div>
+    </section>
   </div>
 
-  <script type="module">
-    import { auth, db } from "./firebase.js";
-    import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-    import { collection, addDoc, serverTimestamp, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-    import { getStorage, ref as storageRef, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
+<script type="module">
+  import { db } from "./firebase.js";
+  import {
+    collection, getDocs, query, orderBy,
+    doc, getDoc, updateDoc, deleteDoc
+  } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-    const $ = (id) => document.getElementById(id);
+  import {
+    getAuth, onAuthStateChanged,
+    signInWithEmailAndPassword, signOut
+  } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-    const fotoFiles = $("fotoFiles");
-    const previews = $("previews");
-    const msg = $("msg");
-    const progress = $("progress");
-    const bar = $("bar");
-    const btnSalvar = $("salvar");
+  const auth = getAuth();
 
-    const storage = getStorage();
+  const elWho = document.getElementById("who");
+  const loginSection = document.getElementById("loginSection");
+  const adminSection = document.getElementById("adminSection");
+  const grid = document.getElementById("grid");
 
-    let currentUser = null;
-    let isAdmin = false;
+  const btnLogin = document.getElementById("btnLogin");
+  const btnLogout = document.getElementById("btnLogout");
+  const btnRefresh = document.getElementById("btnRefresh");
 
-    function setMsg(text, kind="") {
-      msg.className = "msg" + (kind ? " " + kind : "");
-      msg.textContent = text || "";
+  const emailEl = document.getElementById("email");
+  const passEl = document.getElementById("pass");
+  const loginErr = document.getElementById("loginErr");
+
+  function moneyBR(v){
+    const n = Number(v || 0);
+    return `R$ ${n.toFixed(2).replace(".", ",")}`;
+  }
+
+  function statusTag(status){
+    if (status === "disponivel") return `<span class="tag ok">disponível</span>`;
+    if (status === "reservado") return `<span class="tag warn">reservado</span>`;
+    if (status === "vendido") return `<span class="tag bad">vendido</span>`;
+    return `<span class="tag">${status || "-"}</span>`;
+  }
+
+  function publicItemLink(id){
+    // link público do item (GitHub pages)
+    return `${location.origin}${location.pathname.replace("admin-produtos.html","")}item.html?id=${id}`;
+  }
+
+  async function assertAdmin(user){
+    const ref = doc(db, "users", user.uid);
+    const snap = await getDoc(ref);
+    return snap.exists() && snap.data()?.role === "admin";
+  }
+
+  async function loadProdutos(){
+    grid.innerHTML = `<div class="muted">Carregando...</div>`;
+
+    // Ordena pelo criadoEm se existir — senão, volta pelo __name__
+    // Obs: se der erro de índice aqui, a gente cria igual ao do cliente
+    const q = query(collection(db, "produtos"), orderBy("criadoEm", "desc"));
+    const snap = await getDocs(q);
+
+    const items = [];
+    snap.forEach(d => items.push({ id: d.id, ...d.data() }));
+
+    grid.innerHTML = "";
+    if (items.length === 0){
+      grid.innerHTML = `<div class="muted">Nenhum produto.</div>`;
+      return;
     }
-    function setProgress(pct) {
-      progress.style.display = "block";
-      bar.style.width = `${Math.max(0, Math.min(100, pct))}%`;
-    }
-    function resetProgress() {
-      progress.style.display = "none";
-      bar.style.width = "0%";
-    }
 
-    onAuthStateChanged(auth, async (user) => {
-      if (!user) {
-        location.href = "admin.html";
-        return;
-      }
-      currentUser = user;
+    items.forEach(p => {
+      const fotos = Array.isArray(p.fotos) ? p.fotos.filter(Boolean) : [];
+      const thumb = fotos[0] || "";
+      const link = publicItemLink(p.id);
 
-      const snap = await getDoc(doc(db, "users", user.uid));
-      isAdmin = snap.exists() && snap.data().role === "admin";
-      if (!isAdmin) setMsg("Usuário não é admin.", "err");
-    });
+      const card = document.createElement("div");
+      card.className = "card-admin";
+      card.innerHTML = `
+        ${thumb ? `<img class="thumb" src="${thumb}" alt="">` : `<div class="thumb"></div>`}
+        <div class="meta">
+          <div class="title">${p.titulo || "Produto"}</div>
+          <div class="sub">${p.tamanho ? `Tam: ${p.tamanho}` : ""}</div>
+          <div class="price">${moneyBR(p.preco)}</div>
+          <div style="margin-bottom:10px;">${statusTag(p.status)}</div>
 
-    $("logout").onclick = async () => {
-      await signOut(auth);
-      location.href = "admin.html";
-    };
+          <div class="row">
+            <button class="btn" data-act="disponivel">Disponível</button>
+            <button class="btn" data-act="reservado">Reservar</button>
+            <button class="btn btn-danger" data-act="vendido">Vendido</button>
+          </div>
 
-    fotoFiles.addEventListener("change", () => {
-      previews.innerHTML = "";
-      const files = Array.from(fotoFiles.files || []);
-      if (files.length > 3) {
-        alert("Escolha no máximo 3 fotos.");
-        fotoFiles.value = "";
-        return;
-      }
-      files.forEach(file => {
-        const div = document.createElement("div");
-        div.className = "preview";
-        div.innerHTML = `<img src="${URL.createObjectURL(file)}" alt="foto">`;
-        previews.appendChild(div);
+          <div class="row" style="margin-top:10px;">
+            <button class="btn" data-act="copy">Copiar link</button>
+            <a class="btn btn-ghost" href="${link}" target="_blank" rel="noopener" style="text-decoration:none;">Abrir público</a>
+            <button class="btn btn-danger" data-act="delete">Excluir</button>
+          </div>
+        </div>
+      `;
+
+      card.addEventListener("click", async (e) => {
+        const btn = e.target?.closest("button");
+        if (!btn) return;
+
+        const act = btn.getAttribute("data-act");
+        const ref = doc(db, "produtos", p.id);
+
+        try{
+          if (act === "copy"){
+            await navigator.clipboard.writeText(link);
+            btn.textContent = "Copiado!";
+            setTimeout(() => (btn.textContent = "Copiar link"), 900);
+            return;
+          }
+
+          if (act === "delete"){
+            const ok = confirm("Excluir esse produto? Não tem volta.");
+            if (!ok) return;
+            await deleteDoc(ref);
+            card.remove();
+            return;
+          }
+
+          if (act === "disponivel" || act === "reservado" || act === "vendido"){
+            await updateDoc(ref, { status: act });
+            // Atualiza tag na UI sem recarregar tudo
+            const tagWrap = card.querySelector(".tag")?.parentElement;
+            if (tagWrap) tagWrap.innerHTML = statusTag(act);
+            return;
+          }
+        }catch(err){
+          console.error(err);
+          alert("Erro ao atualizar. Veja o Console (F12).");
+        }
       });
+
+      grid.appendChild(card);
     });
+  }
 
-    function safeFileExt(file) {
-      const t = (file.type || "").toLowerCase();
-      if (t.includes("png")) return "png";
-      if (t.includes("webp")) return "webp";
-      return "jpg";
+  btnLogin.onclick = async () => {
+    loginErr.textContent = "";
+    const email = emailEl.value.trim();
+    const pass = passEl.value.trim();
+    if (!email || !pass){
+      loginErr.textContent = "Preencha e-mail e senha.";
+      return;
     }
 
-    async function uploadFotos(productId, files) {
-      // Upload sequencial (mais simples e confiável) com progresso agregado
-      const urls = [];
-      let done = 0;
+    try{
+      await signInWithEmailAndPassword(auth, email, pass);
+    }catch(err){
+      console.error(err);
+      loginErr.textContent = "Login falhou. Verifique e-mail/senha.";
+    }
+  };
 
-      for (let i = 0; i < files.length; i++) {
-        const file = files[i];
+  btnLogout.onclick = async () => {
+    await signOut(auth);
+  };
 
-        // Nome estável + único
-        const ext = safeFileExt(file);
-        const fileName = `foto_${i+1}_${Date.now()}.${ext}`;
+  btnRefresh.onclick = async () => {
+    if (!adminSection.classList.contains("hidden")) await loadProdutos();
+  };
 
-        // Caminho protegido por regras (só admin escreve)
-        const path = `produtos/${productId}/${fileName}`;
-        const ref = storageRef(storage, path);
-
-        await new Promise((resolve, reject) => {
-          const task = uploadBytesResumable(ref, file, {
-            contentType: file.type || "image/jpeg",
-            cacheControl: "public,max-age=31536000"
-          });
-
-          task.on("state_changed",
-            (snap) => {
-              // progresso total aproximado: média entre arquivos
-              const pctThis = (snap.bytesTransferred / snap.totalBytes) * 100;
-              const pctTotal = ((done + (pctThis/100)) / files.length) * 100;
-              setProgress(pctTotal);
-            },
-            (err) => reject(err),
-            async () => {
-              const url = await getDownloadURL(task.snapshot.ref);
-              urls.push(url);
-              done += 1;
-              setProgress((done / files.length) * 100);
-              resolve();
-            }
-          );
-        });
-      }
-
-      return urls;
+  onAuthStateChanged(auth, async (user) => {
+    if (!user){
+      elWho.textContent = "Deslogado";
+      loginSection.classList.remove("hidden");
+      adminSection.classList.add("hidden");
+      btnLogout.classList.add("hidden");
+      grid.innerHTML = "";
+      return;
     }
 
-    btnSalvar.onclick = async () => {
-      setMsg("");
-      resetProgress();
-      btnSalvar.disabled = true;
+    elWho.textContent = user.email || user.uid;
 
-      try {
-        if (!currentUser) { setMsg("Faça login novamente.", "err"); return; }
-        if (!isAdmin) { setMsg("Sem permissão de admin.", "err"); return; }
+    // Checa admin via Firestore users/{uid}.role
+    let isAdmin = false;
+    try{
+      isAdmin = await assertAdmin(user);
+    }catch(err){
+      console.error(err);
+    }
 
-        const titulo = $("titulo").value.trim();
-        const preco = Number($("preco").value);
-        const tamanho = $("tamanho").value.trim();
-        const statusVal = $("status").value;
-        const descricao = $("descricao").value.trim();
+    if (!isAdmin){
+      alert("Seu usuário não é admin (users/{uid}.role != 'admin').");
+      await signOut(auth);
+      return;
+    }
 
-        if (!titulo) { setMsg("Informe o título.", "err"); return; }
-        if (!Number.isFinite(preco) || preco <= 0) { setMsg("Informe um preço válido.", "err"); return; }
-        if (!tamanho) { setMsg("Informe o tamanho.", "err"); return; }
+    loginSection.classList.add("hidden");
+    adminSection.classList.remove("hidden");
+    btnLogout.classList.remove("hidden");
 
-        const files = Array.from(fotoFiles.files || []);
-        if (files.length === 0) { setMsg("Selecione pelo menos 1 foto.", "err"); return; }
-        if (files.length > 3) { setMsg("Máximo 3 fotos.", "err"); return; }
-
-        // 1) cria o produto primeiro (pra ter productId)
-        setMsg("Criando produto…");
-        const docRef = await addDoc(collection(db, "produtos"), {
-          titulo,
-          preco,
-          tamanho,
-          status: statusVal,
-          descricao: descricao || null,
-          fotos: [], // vamos atualizar com URLs após upload (mantemos consistente)
-          criadoEm: serverTimestamp()
-        });
-
-        // 2) sobe fotos e pega URLs
-        setMsg("Enviando fotos…");
-        const urls = await uploadFotos(docRef.id, files);
-
-        // 3) atualiza o documento com as URLs (sem precisar de update import extra: faz via addDoc? Não.)
-        // Vamos importar updateDoc.
-        // (Hack limpo: import dinâmico)
-        const { updateDoc } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
-        await updateDoc(doc(db, "produtos", docRef.id), { fotos: urls });
-
-        setMsg("Produto salvo com fotos ✅", "ok");
-        resetProgress();
-
-        // limpa campos
-        $("titulo").value = "";
-        $("preco").value = "";
-        $("tamanho").value = "";
-        $("status").value = "disponivel";
-        $("descricao").value = "";
-        fotoFiles.value = "";
-        previews.innerHTML = "";
-
-      } catch (e) {
-        console.error(e);
-        setMsg("Erro ao subir fotos/salvar. Veja o console.", "err");
-      } finally {
-        btnSalvar.disabled = false;
-      }
-    };
-  </script>
+    await loadProdutos();
+  });
+</script>
 </body>
 </html>
