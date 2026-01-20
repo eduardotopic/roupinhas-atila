@@ -70,7 +70,7 @@
     }
     .dot.active{ background: rgba(255,255,255,.95); }
 
-    /* ========= Modal simples ========= */
+    /* ========= Modal ========= */
     .modal-backdrop{
       position: fixed;
       inset: 0;
@@ -180,6 +180,7 @@
       font-weight: 800;
     }
 
+    /* Botão secundário */
     .ghost-btn{
       width: 100%;
       margin-top: 10px;
@@ -190,6 +191,21 @@
       font-weight: 700;
       cursor: pointer;
     }
+
+    /* ✅ FORÇA visual WhatsApp grande/verde (mesmo se style.css mudar) */
+    #buyBtn{
+      width: 100%;
+      margin-top: 12px;
+      padding: 16px 14px;
+      border-radius: 16px;
+      border: 0;
+      background: #25D366;
+      color: #0b0b10;
+      font-weight: 900;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    #buyBtn:active{ transform: scale(.99); }
   </style>
 </head>
 <body>
@@ -301,7 +317,7 @@
     const link = siteUrlDoItem(id);
 
     return [
-      "Oi! 😊",
+      "Oi!",
       "Tenho interesse nesse produto.",
       "",
       `Nome: ${nome}`,
@@ -353,6 +369,7 @@
 
   modalCancelar.addEventListener("click", () => closeModal());
 
+  // ✅ FIX: após salvar, se veio do fluxo de compra, abre WhatsApp automaticamente
   modalSalvar.addEventListener("click", () => {
     const nome = mNome.value.trim();
     const apto = mApto.value.trim();
@@ -364,9 +381,13 @@
     }
 
     setBuyerData({ nome, apto, torre });
+
+    const shouldOpen = pendingOpenWhats && pendingId;
+    const idToOpen = pendingId;
+
     closeModal();
 
-    if (pendingOpenWhats && pendingId) openWhats(pendingId);
+    if (shouldOpen) openWhats(idToOpen);
   });
 
   /* ===== Carrossel ===== */
@@ -517,8 +538,7 @@
     } else {
       const p = snap.data();
 
-      // ✅ REGRA CLIENTE: se não for disponível, some do site (redirect)
-      // Se você quiser permitir "reservado" como visível, troque a condição para: p.status === "vendido"
+      // Cliente não vê vendido (nem reservado, neste modo "sumiço total")
       if (p.status !== "disponivel") {
         location.href = "index.html";
       }
@@ -531,12 +551,9 @@
       priceEl.textContent = formatBRL(p.preco ?? 0);
       descEl.textContent = p.descricao || "";
 
-      // (Como só entra aqui se for disponível, esse bloco não aparece)
-      if (p.status === "reservado") reservedBox.style.display = "block";
-
       buyBtn.onclick = () => {
         if (!buyerDataComplete()) {
-          openModal(true, id);
+          openModal(true, id);   // ✅ garante que pendingId não fica null
           return;
         }
         openWhats(id);
