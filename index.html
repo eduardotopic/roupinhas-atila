@@ -2,22 +2,31 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Roupinhas do Átila 👶</title>
-
-  <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Roupinhas do Átila</title>
+  <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
+  <div class="wrap">
+    <div class="header">
+      <div class="brand">
+        <div class="badge">👶</div>
+        <div>
+          <h1>Roupinhas do Átila</h1>
+          <div class="sub">Escolha e fale com a gente pelo WhatsApp</div>
+        </div>
+      </div>
+      <a class="btn-ghost" href="./admin.html" style="text-decoration:none;">Admin</a>
+    </div>
 
-<header class="topbar">
-  <h1>Roupinhas do Átila 👶</h1>
-</header>
+    <div id="productGrid" class="grid"></div>
 
-<main class="grid" id="productGrid">
-  <!-- cards gerados via JS -->
-</main>
+    <div class="footer">Feito com carinho ✨</div>
+  </div>
 
-<script type="module" src="app.js"></script>
+  <script type="module">
+    import { carregarProdutos } from "./app.js";
+    carregarProdutos();
+  </script>
 </body>
 </html>

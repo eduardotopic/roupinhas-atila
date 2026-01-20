@@ -20,11 +20,13 @@
       --radius:18px;
       --shadow:0 20px 60px rgba(0,0,0,.55);
     }
+
     *{ box-sizing:border-box; }
     html,body{ height:100%; }
+
     body{
       margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
       color:var(--text);
       background:
         radial-gradient(900px 500px at 10% 0%, rgba(167,139,250,.25), transparent 60%),
@@ -35,123 +37,167 @@
       display:grid;
       place-items:start center;
     }
-    .wrap{ width:min(520px, 100%); padding: 14px; }
+
+    .wrap{ width:min(520px, 100%); padding:14px; }
+
     .top{
-      display:flex; align-items:center; justify-content:space-between; gap:12px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
       margin: 8px 6px 14px;
     }
+
     .title{
-      display:flex; align-items:center; gap:10px;
+      display:flex;
+      align-items:center;
+      gap:10px;
     }
+
     .badge{
-      width: 40px; height: 40px; border-radius: 14px;
+      width:40px;
+      height:40px;
+      border-radius:14px;
       background: linear-gradient(135deg, rgba(110,231,255,.22), rgba(167,139,250,.22));
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow);
-      display:grid; place-items:center;
-      font-size: 20px;
+      border:1px solid var(--border);
+      display:grid;
+      place-items:center;
+      font-size:20px;
     }
-    h1{ font-size: 18px; margin:0; }
-    .sub{ margin:2px 0 0; font-size: 12px; color: var(--muted); }
+
+    h1{ font-size:18px; margin:0; }
+    .sub{ font-size:12px; color:var(--muted); }
 
     .btn-ghost{
-      border: 1px solid var(--border);
+      border:1px solid var(--border);
       background: rgba(255,255,255,.06);
-      color: var(--text);
-      padding: 10px 12px;
-      border-radius: 14px;
-      font-weight: 700;
+      color:var(--text);
+      padding:10px 12px;
+      border-radius:14px;
+      font-weight:700;
       cursor:pointer;
     }
 
     .card{
       background: linear-gradient(180deg, var(--card), var(--card2));
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 16px;
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:16px;
       backdrop-filter: blur(10px);
     }
 
-    label{ display:block; font-size: 13px; color: var(--muted); margin: 12px 2px 6px; }
+    label{
+      display:block;
+      font-size:13px;
+      color:var(--muted);
+      margin:12px 2px 6px;
+    }
+
     input, select, textarea{
       width:100%;
-      padding: 14px 14px;
-      border-radius: 14px;
-      border: 1px solid var(--border);
+      padding:14px;
+      border-radius:14px;
+      border:1px solid var(--border);
       background: rgba(0,0,0,.25);
-      color: var(--text);
+      color:var(--text);
+      font-size:16px;
       outline:none;
-      font-size: 16px; /* iOS no-zoom */
     }
-    textarea{ min-height: 90px; resize: vertical; }
-    input:focus, select:focus, textarea:focus{
-      border-color: rgba(110,231,255,.55);
-      box-shadow: 0 0 0 4px rgba(110,231,255,.12);
-    }
+
+    textarea{ min-height:90px; resize:vertical; }
 
     .grid{
       display:grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
+      gap:12px;
     }
-    @media (max-width: 420px){
-      .grid{ grid-template-columns: 1fr; }
+
+    @media (max-width:420px){
+      .grid{ grid-template-columns:1fr; }
     }
 
     .upload{
-      display:flex;
-      gap: 12px;
-      align-items: center;
-      padding: 12px;
-      border-radius: 16px;
-      border: 1px dashed rgba(255,255,255,.22);
+      margin-top:8px;
+      padding:12px;
+      border-radius:16px;
+      border:1px dashed rgba(255,255,255,.22);
       background: rgba(0,0,0,.18);
-      margin-top: 10px;
     }
-    .preview{
-      width: 74px;
-      height: 74px;
-      border-radius: 16px;
-      border: 1px solid var(--border);
-      overflow:hidden;
-      background: rgba(255,255,255,.06);
+
+    .hint{
+      margin-top:8px;
+      font-size:12px;
+      color: rgba(255,255,255,.55);
+      line-height: 1.35;
+    }
+
+    .previews{
       display:grid;
-      place-items:center;
-      flex: 0 0 auto;
-      font-size: 22px;
-      color: rgba(255,255,255,.5);
+      grid-template-columns: repeat(3, 1fr);
+      gap:10px;
+      margin-top:10px;
     }
-    .preview img{ width:100%; height:100%; object-fit: cover; display:block; }
-    .upload-actions{ flex: 1; }
-    .small{ font-size: 12px; color: rgba(255,255,255,.55); margin-top: 4px; line-height:1.35; }
+
+    .preview{
+      height:90px;
+      border-radius:14px;
+      overflow:hidden;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.06);
+      position: relative;
+    }
+
+    .preview img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    .progress{
+      margin-top: 10px;
+      width: 100%;
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.10);
+      overflow:hidden;
+      border: 1px solid rgba(255,255,255,.12);
+      display:none;
+    }
+    .bar{
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+    }
 
     .btn{
-      width: 100%;
-      margin-top: 14px;
-      padding: 14px 14px;
-      border-radius: 14px;
-      border: 0;
-      cursor: pointer;
-      font-weight: 800;
-      font-size: 16px;
-      color: rgba(10,10,14,.95);
+      width:100%;
+      margin-top:14px;
+      padding:14px;
+      border-radius:14px;
+      border:0;
+      cursor:pointer;
+      font-weight:800;
+      font-size:16px;
+      color:#0b0b10;
       background: linear-gradient(135deg, var(--accent), var(--accent2));
-      box-shadow: 0 14px 40px rgba(110,231,255,.14);
-      transition: transform .06s ease;
     }
-    .btn:active{ transform: scale(.99); }
     .btn[disabled]{ opacity:.65; cursor:not-allowed; }
 
-    .msg{ margin-top: 12px; font-size: 13px; color: var(--muted); min-height: 18px; }
-    .msg.err{ color: var(--danger); }
-    .msg.ok{ color: var(--ok); }
+    .msg{
+      margin-top:12px;
+      font-size:13px;
+      min-height:18px;
+      color:var(--muted);
+    }
+    .msg.err{ color:var(--danger); }
+    .msg.ok{ color:var(--ok); }
 
     .footer{
-      margin-top: 12px;
+      margin-top:12px;
       text-align:center;
+      font-size:12px;
       color: rgba(255,255,255,.45);
-      font-size: 12px;
     }
   </style>
 </head>
@@ -163,56 +209,47 @@
         <div class="badge">🧺</div>
         <div>
           <h1>Novo produto</h1>
-          <div class="sub">Cadastro rápido (admin)</div>
+          <div class="sub">Cadastro (admin)</div>
         </div>
       </div>
       <button id="logout" class="btn-ghost">Sair</button>
     </div>
 
     <div class="card">
-      <label for="titulo">Título</label>
+      <label>Título</label>
       <input id="titulo" placeholder="Ex: Body azul" />
 
       <div class="grid">
         <div>
-          <label for="preco">Preço (R$)</label>
-          <input id="preco" type="number" inputmode="decimal" step="0.01" placeholder="35" />
+          <label>Preço (R$)</label>
+          <input id="preco" type="number" step="0.01" placeholder="39.90" />
         </div>
         <div>
-          <label for="tamanho">Tamanho</label>
-          <input id="tamanho" placeholder='Ex: "2 anos"' />
+          <label>Tamanho</label>
+          <input id="tamanho" placeholder="Ex: 2 anos" />
         </div>
       </div>
 
-      <div class="grid">
-        <div>
-          <label for="status">Status</label>
-          <select id="status">
-            <option value="disponivel">Disponível</option>
-            <option value="reservado">Reservado</option>
-            <option value="vendido">Vendido</option>
-          </select>
-        </div>
-        <div>
-          <label for="categoria">Categoria (opcional)</label>
-          <input id="categoria" placeholder="Ex: bodies" />
-        </div>
-      </div>
+      <label>Status</label>
+      <select id="status">
+        <option value="disponivel">Disponível</option>
+        <option value="reservado">Reservado</option>
+        <option value="vendido">Vendido</option>
+      </select>
 
-      <label>Foto (tirar ou escolher)</label>
+      <label>Fotos (1 a 3)</label>
       <div class="upload">
-        <div class="preview" id="previewBox">📷</div>
-        <div class="upload-actions">
-          <!-- iPhone/Android normalmente oferece Câmera ou Galeria -->
-          <input id="fotoFile" type="file" accept="image/*" capture="environment" />
-          <div class="small">
-            Dica: se você tocar no campo acima, no celular geralmente aparece “Tirar foto” ou “Biblioteca”.
-          </div>
+        <input id="fotoFiles" type="file" accept="image/*" multiple />
+        <div class="hint">No celular: selecione da galeria ou use a câmera. Máx. 3 fotos.</div>
+        <div class="previews" id="previews"></div>
+
+        <div class="progress" id="progress">
+          <div class="bar" id="bar"></div>
         </div>
       </div>
 
-      <label for="descricao">Descrição</label>
-      <textarea id="descricao" placeholder='Ex: "Pouco usado, ótimo estado"'></textarea>
+      <label>Descrição</label>
+      <textarea id="descricao" placeholder="Observações sobre o produto"></textarea>
 
       <button id="salvar" class="btn">Salvar produto</button>
       <div id="msg" class="msg"></div>
@@ -224,15 +261,19 @@
   <script type="module">
     import { auth, db } from "./firebase.js";
     import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-    import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-    import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    import { collection, addDoc, serverTimestamp, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    import { getStorage, ref as storageRef, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
     const $ = (id) => document.getElementById(id);
 
-    const previewBox = $("previewBox");
-    const fotoFile = $("fotoFile");
+    const fotoFiles = $("fotoFiles");
+    const previews = $("previews");
     const msg = $("msg");
-    const btn = $("salvar");
+    const progress = $("progress");
+    const bar = $("bar");
+    const btnSalvar = $("salvar");
+
+    const storage = getStorage();
 
     let currentUser = null;
     let isAdmin = false;
@@ -241,8 +282,15 @@
       msg.className = "msg" + (kind ? " " + kind : "");
       msg.textContent = text || "";
     }
+    function setProgress(pct) {
+      progress.style.display = "block";
+      bar.style.width = `${Math.max(0, Math.min(100, pct))}%`;
+    }
+    function resetProgress() {
+      progress.style.display = "none";
+      bar.style.width = "0%";
+    }
 
-    // Protege a página (só admin)
     onAuthStateChanged(auth, async (user) => {
       if (!user) {
         location.href = "admin.html";
@@ -250,93 +298,145 @@
       }
       currentUser = user;
 
-      // checa role
-      const ref = doc(db, "users", user.uid);
-      const snap = await getDoc(ref);
+      const snap = await getDoc(doc(db, "users", user.uid));
       isAdmin = snap.exists() && snap.data().role === "admin";
-
-      if (!isAdmin) {
-        setMsg("Seu usuário não é admin.", "err");
-      }
+      if (!isAdmin) setMsg("Usuário não é admin.", "err");
     });
 
-    // Logout
     $("logout").onclick = async () => {
       await signOut(auth);
       location.href = "admin.html";
     };
 
-    // Preview da foto
-    fotoFile.addEventListener("change", () => {
-      const file = fotoFile.files && fotoFile.files[0];
-      if (!file) return;
-
-      const url = URL.createObjectURL(file);
-      previewBox.innerHTML = `<img src="${url}" alt="preview">`;
+    fotoFiles.addEventListener("change", () => {
+      previews.innerHTML = "";
+      const files = Array.from(fotoFiles.files || []);
+      if (files.length > 3) {
+        alert("Escolha no máximo 3 fotos.");
+        fotoFiles.value = "";
+        return;
+      }
+      files.forEach(file => {
+        const div = document.createElement("div");
+        div.className = "preview";
+        div.innerHTML = `<img src="${URL.createObjectURL(file)}" alt="foto">`;
+        previews.appendChild(div);
+      });
     });
 
-    // ✅ Por enquanto: salva produto no Firestore com fotos: [] (sem upload)
-    // Isso mantém o app em produção SEM precisar Storage ainda.
-    btn.onclick = async () => {
+    function safeFileExt(file) {
+      const t = (file.type || "").toLowerCase();
+      if (t.includes("png")) return "png";
+      if (t.includes("webp")) return "webp";
+      return "jpg";
+    }
+
+    async function uploadFotos(productId, files) {
+      // Upload sequencial (mais simples e confiável) com progresso agregado
+      const urls = [];
+      let done = 0;
+
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+
+        // Nome estável + único
+        const ext = safeFileExt(file);
+        const fileName = `foto_${i+1}_${Date.now()}.${ext}`;
+
+        // Caminho protegido por regras (só admin escreve)
+        const path = `produtos/${productId}/${fileName}`;
+        const ref = storageRef(storage, path);
+
+        await new Promise((resolve, reject) => {
+          const task = uploadBytesResumable(ref, file, {
+            contentType: file.type || "image/jpeg",
+            cacheControl: "public,max-age=31536000"
+          });
+
+          task.on("state_changed",
+            (snap) => {
+              // progresso total aproximado: média entre arquivos
+              const pctThis = (snap.bytesTransferred / snap.totalBytes) * 100;
+              const pctTotal = ((done + (pctThis/100)) / files.length) * 100;
+              setProgress(pctTotal);
+            },
+            (err) => reject(err),
+            async () => {
+              const url = await getDownloadURL(task.snapshot.ref);
+              urls.push(url);
+              done += 1;
+              setProgress((done / files.length) * 100);
+              resolve();
+            }
+          );
+        });
+      }
+
+      return urls;
+    }
+
+    btnSalvar.onclick = async () => {
       setMsg("");
-      btn.disabled = true;
+      resetProgress();
+      btnSalvar.disabled = true;
 
       try {
-        if (!currentUser) {
-          setMsg("Faça login novamente.", "err");
-          return;
-        }
-        if (!isAdmin) {
-          setMsg("Você não tem permissão de admin.", "err");
-          return;
-        }
+        if (!currentUser) { setMsg("Faça login novamente.", "err"); return; }
+        if (!isAdmin) { setMsg("Sem permissão de admin.", "err"); return; }
 
         const titulo = $("titulo").value.trim();
         const preco = Number($("preco").value);
         const tamanho = $("tamanho").value.trim();
         const statusVal = $("status").value;
-        const categoria = $("categoria").value.trim();
         const descricao = $("descricao").value.trim();
 
         if (!titulo) { setMsg("Informe o título.", "err"); return; }
         if (!Number.isFinite(preco) || preco <= 0) { setMsg("Informe um preço válido.", "err"); return; }
+        if (!tamanho) { setMsg("Informe o tamanho.", "err"); return; }
 
-        // Foto: por enquanto não fazemos upload. Guardamos placeholder.
-        // Próximo passo (que eu faço com você): upload no Firebase Storage e salvar a URL.
-        const file = fotoFile.files && fotoFile.files[0];
-        const fotos = [];
-        if (file) {
-          fotos.push("PENDENTE_UPLOAD_STORAGE");
-        }
+        const files = Array.from(fotoFiles.files || []);
+        if (files.length === 0) { setMsg("Selecione pelo menos 1 foto.", "err"); return; }
+        if (files.length > 3) { setMsg("Máximo 3 fotos.", "err"); return; }
 
-        await addDoc(collection(db, "produtos"), {
+        // 1) cria o produto primeiro (pra ter productId)
+        setMsg("Criando produto…");
+        const docRef = await addDoc(collection(db, "produtos"), {
           titulo,
           preco,
           tamanho,
           status: statusVal,
-          categoria: categoria || null,
           descricao: descricao || null,
-          fotos,
+          fotos: [], // vamos atualizar com URLs após upload (mantemos consistente)
           criadoEm: serverTimestamp()
         });
 
-        setMsg("Produto salvo no Firestore ✅", "ok");
+        // 2) sobe fotos e pega URLs
+        setMsg("Enviando fotos…");
+        const urls = await uploadFotos(docRef.id, files);
+
+        // 3) atualiza o documento com as URLs (sem precisar de update import extra: faz via addDoc? Não.)
+        // Vamos importar updateDoc.
+        // (Hack limpo: import dinâmico)
+        const { updateDoc } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
+        await updateDoc(doc(db, "produtos", docRef.id), { fotos: urls });
+
+        setMsg("Produto salvo com fotos ✅", "ok");
+        resetProgress();
 
         // limpa campos
         $("titulo").value = "";
         $("preco").value = "";
         $("tamanho").value = "";
         $("status").value = "disponivel";
-        $("categoria").value = "";
         $("descricao").value = "";
-        fotoFile.value = "";
-        previewBox.textContent = "📷";
+        fotoFiles.value = "";
+        previews.innerHTML = "";
 
       } catch (e) {
         console.error(e);
-        setMsg("Erro ao salvar. Veja o console.", "err");
+        setMsg("Erro ao subir fotos/salvar. Veja o console.", "err");
       } finally {
-        btn.disabled = false;
+        btnSalvar.disabled = false;
       }
     };
   </script>

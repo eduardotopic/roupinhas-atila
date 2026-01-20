@@ -6,6 +6,191 @@
   <title>Item</title>
   <link rel="stylesheet" href="style.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ========= CARROSSEL ========= */
+    .pdp-media{ margin-bottom: 10px; }
+    .carousel{
+      position: relative;
+      width: 100%;
+      border-radius: 14px;
+      overflow: hidden;
+      background: #f2f2f2;
+      touch-action: pan-y;
+    }
+    .track{
+      display: flex;
+      width: 100%;
+      transition: transform 220ms ease;
+      will-change: transform;
+    }
+    .slide{ flex: 0 0 100%; width: 100%; }
+    .slide img{
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: cover;
+      background: #f2f2f2;
+    }
+    .navBtn{
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 40px;
+      height: 40px;
+      border-radius: 999px;
+      border: 0;
+      cursor: pointer;
+      background: rgba(0,0,0,.35);
+      color: #fff;
+      font-weight: 800;
+      display: grid;
+      place-items: center;
+      backdrop-filter: blur(6px);
+      -webkit-tap-highlight-color: transparent;
+    }
+    .prev{ left: 10px; }
+    .next{ right: 10px; }
+    .dots{
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 10px;
+      display: flex;
+      gap: 6px;
+      justify-content: center;
+      pointer-events: none;
+    }
+    .dot{
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.55);
+      border: 1px solid rgba(0,0,0,.10);
+    }
+    .dot.active{ background: rgba(255,255,255,.95); }
+
+    /* ========= Modal simples ========= */
+    .modal-backdrop{
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.62);
+      display:none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      z-index: 9999;
+    }
+    .modal{
+      width: min(520px, 100%);
+      background: #111218;
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 16px;
+      padding: 14px;
+      color: #fff;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+    }
+    .modal h3{ margin: 6px 4px 4px; font-size: 16px; }
+    .modal p{ margin: 0 4px 10px; color: rgba(255,255,255,.7); font-size: 13px; }
+    .modal label{ display:block; margin: 10px 4px 6px; color: rgba(255,255,255,.7); font-size: 13px; }
+    .modal input{
+      width:100%;
+      padding: 12px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: #fff;
+      font-size: 16px;
+      outline: none;
+    }
+    .modal .row{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    @media (max-width: 420px){
+      .modal .row{ grid-template-columns: 1fr; }
+    }
+    .modal .actions{
+      display:flex;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .modal .btn2{
+      flex:1;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: #fff;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .modal .btnPrimary{
+      background: linear-gradient(135deg, #6ee7ff, #a78bfa);
+      border: 0;
+      color: #0b0b10;
+      font-weight: 800;
+    }
+
+    /* ========= Outros itens ========= */
+    .related { margin-top: 18px; }
+    .related h3{
+      margin: 16px 0 10px;
+      font-size: 14px;
+      opacity: .9;
+    }
+    .related-grid{
+      display:grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+    @media (min-width: 760px){
+      .related-grid{ grid-template-columns: repeat(3, 1fr); }
+    }
+    .related-card{
+      display:block;
+      text-decoration:none;
+      color: inherit;
+      border: 1px solid rgba(0,0,0,.08);
+      border-radius: 14px;
+      overflow:hidden;
+      background: #fff;
+    }
+    .related-card img{
+      width:100%;
+      height: 140px;
+      object-fit: cover;
+      display:block;
+      background: #f2f2f2;
+    }
+    .related-body{ padding: 10px; }
+    .related-title{
+      font-weight: 700;
+      font-size: 14px;
+      margin: 0 0 4px;
+    }
+    .related-meta{
+      font-size: 12px;
+      opacity: .7;
+      margin: 0;
+    }
+    .related-price{
+      margin-top: 8px;
+      font-weight: 800;
+    }
+
+    .ghost-btn{
+      width: 100%;
+      margin-top: 10px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(0,0,0,.12);
+      background: transparent;
+      font-weight: 700;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
 
@@ -15,9 +200,7 @@
 </header>
 
 <main class="pdp">
-  <div class="pdp-media">
-    <img id="pdpImg" src="https://picsum.photos/400/400?loading" alt="Foto do item">
-  </div>
+  <div class="pdp-media" id="pdpMedia"></div>
 
   <h2 id="pdpTitle" class="pdp-title">Carregando...</h2>
   <p id="pdpSize" class="pdp-muted"></p>
@@ -31,14 +214,56 @@
 
   <p id="pdpDesc" class="pdp-desc"></p>
 
-  <button id="buyBtn" class="buy">
-    Comprar pelo WhatsApp
+  <button id="buyBtn" class="buy">Comprar pelo WhatsApp</button>
+
+  <button id="editBuyerBtn" class="ghost-btn" type="button">
+    Editar meus dados (nome / apto / torre)
   </button>
+
+  <section class="related">
+    <h3>Outros itens</h3>
+    <div id="relatedGrid" class="related-grid"></div>
+  </section>
 </main>
+
+<!-- Modal Dados -->
+<div class="modal-backdrop" id="modalBackdrop" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true">
+    <h3>Antes de chamar no WhatsApp</h3>
+    <p>Preencha para identificar você (fica salvo nesse celular).</p>
+
+    <label for="mNome">Nome</label>
+    <input id="mNome" placeholder="Ex: Ana" autocomplete="name" />
+
+    <div class="row">
+      <div>
+        <label for="mApto">Apartamento</label>
+        <input id="mApto" placeholder="Ex: 1203" inputmode="numeric" />
+      </div>
+      <div>
+        <label for="mTorre">Torre</label>
+        <input id="mTorre" placeholder="Ex: B" />
+      </div>
+    </div>
+
+    <div class="actions">
+      <button id="modalCancelar" class="btn2" type="button">Cancelar</button>
+      <button id="modalSalvar" class="btn2 btnPrimary" type="button">Salvar e abrir WhatsApp</button>
+    </div>
+  </div>
+</div>
 
 <script type="module">
   import { db } from "./firebase.js";
-  import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+  import {
+    doc, getDoc,
+    collection, query, where, orderBy, limit, getDocs
+  } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+  const WIFE_PHONE_E164 = "5511976761117";
+  const LS_NOME = "buyer_nome";
+  const LS_APTO = "buyer_apto";
+  const LS_TORRE = "buyer_torre";
 
   function formatBRL(value) {
     try {
@@ -48,52 +273,313 @@
     }
   }
 
+  function siteUrlDoItem(id) {
+    return location.origin + location.pathname.replace("item.html", "") + `item.html?id=${id}`;
+  }
+
+  function getBuyerData() {
+    return {
+      nome: (localStorage.getItem(LS_NOME) || "").trim(),
+      apto: (localStorage.getItem(LS_APTO) || "").trim(),
+      torre: (localStorage.getItem(LS_TORRE) || "").trim(),
+    };
+  }
+
+  function buyerDataComplete() {
+    const { nome, apto, torre } = getBuyerData();
+    return Boolean(nome && apto && torre);
+  }
+
+  function setBuyerData({ nome, apto, torre }) {
+    localStorage.setItem(LS_NOME, (nome || "").trim());
+    localStorage.setItem(LS_APTO, (apto || "").trim());
+    localStorage.setItem(LS_TORRE, (torre || "").trim());
+  }
+
+  function buildWhatsText(id) {
+    const { nome, apto, torre } = getBuyerData();
+    const link = siteUrlDoItem(id);
+
+    return [
+      "Oi! 😊",
+      "Tenho interesse nesse produto.",
+      "",
+      `Nome: ${nome}`,
+      `Apto: ${apto}`,
+      `Torre: ${torre}`,
+      "",
+      `Link do anúncio: ${link}`,
+    ].join("\n");
+  }
+
+  function openWhats(id) {
+    const msg = encodeURIComponent(buildWhatsText(id));
+    window.location.href = `https://wa.me/${WIFE_PHONE_E164}?text=${msg}`;
+  }
+
+  /* ===== Modal ===== */
+  const backdrop = document.getElementById("modalBackdrop");
+  const mNome = document.getElementById("mNome");
+  const mApto = document.getElementById("mApto");
+  const mTorre = document.getElementById("mTorre");
+  const modalCancelar = document.getElementById("modalCancelar");
+  const modalSalvar = document.getElementById("modalSalvar");
+
+  let pendingOpenWhats = false;
+  let pendingId = null;
+
+  function openModal(openWhatsAfterSave, id) {
+    pendingOpenWhats = Boolean(openWhatsAfterSave);
+    pendingId = id || null;
+
+    const saved = getBuyerData();
+    mNome.value = saved.nome;
+    mApto.value = saved.apto;
+    mTorre.value = saved.torre;
+
+    backdrop.style.display = "flex";
+    setTimeout(() => (mNome.value ? mApto.focus() : mNome.focus()), 50);
+  }
+
+  function closeModal() {
+    backdrop.style.display = "none";
+    pendingOpenWhats = false;
+    pendingId = null;
+  }
+
+  backdrop.addEventListener("click", (e) => {
+    if (e.target === backdrop) closeModal();
+  });
+
+  modalCancelar.addEventListener("click", () => closeModal());
+
+  modalSalvar.addEventListener("click", () => {
+    const nome = mNome.value.trim();
+    const apto = mApto.value.trim();
+    const torre = mTorre.value.trim();
+
+    if (!nome || !apto || !torre) {
+      alert("Preencha Nome, Apartamento e Torre.");
+      return;
+    }
+
+    setBuyerData({ nome, apto, torre });
+    closeModal();
+
+    if (pendingOpenWhats && pendingId) openWhats(pendingId);
+  });
+
+  /* ===== Carrossel ===== */
+  function renderCarousel(container, urls) {
+    const safeUrls = (urls || []).filter(Boolean);
+    if (safeUrls.length === 0) {
+      container.innerHTML = `
+        <div class="carousel">
+          <div class="track" style="transform: translateX(0%);">
+            <div class="slide"><img src="https://picsum.photos/400/400?fallback" alt="Foto do item"></div>
+          </div>
+        </div>
+      `;
+      return;
+    }
+
+    let idx = 0;
+    const slidesHtml = safeUrls.map((u, i) => `
+      <div class="slide"><img src="${u}" alt="Foto ${i+1} do item"></div>
+    `).join("");
+
+    const dotsHtml = safeUrls.map((_, i) =>
+      `<span class="dot ${i===0 ? "active":""}" data-dot="${i}"></span>`
+    ).join("");
+
+    container.innerHTML = `
+      <div class="carousel" id="carousel">
+        <div class="track" id="track">${slidesHtml}</div>
+        ${safeUrls.length > 1 ? `
+          <button class="navBtn prev" id="prevBtn" aria-label="Anterior">‹</button>
+          <button class="navBtn next" id="nextBtn" aria-label="Próximo">›</button>
+          <div class="dots" id="dots">${dotsHtml}</div>
+        ` : ``}
+      </div>
+    `;
+
+    const track = container.querySelector("#track");
+    const dots = container.querySelectorAll(".dot");
+    const prevBtn = container.querySelector("#prevBtn");
+    const nextBtn = container.querySelector("#nextBtn");
+    const carousel = container.querySelector("#carousel");
+
+    function apply() {
+      track.style.transform = `translateX(${-idx * 100}%)`;
+      dots.forEach((d, i) => d.classList.toggle("active", i === idx));
+    }
+
+    function setIndex(newIdx) {
+      idx = Math.max(0, Math.min(safeUrls.length - 1, newIdx));
+      apply();
+    }
+
+    if (prevBtn) prevBtn.onclick = () => setIndex(idx - 1);
+    if (nextBtn) nextBtn.onclick = () => setIndex(idx + 1);
+
+    dots.forEach(d => {
+      d.addEventListener("click", () => {
+        const n = Number(d.getAttribute("data-dot"));
+        if (Number.isFinite(n)) setIndex(n);
+      });
+    });
+
+    let startX = 0;
+    let currentX = 0;
+    let dragging = false;
+
+    carousel.addEventListener("touchstart", (e) => {
+      if (!e.touches || e.touches.length !== 1) return;
+      dragging = true;
+      startX = e.touches[0].clientX;
+      currentX = startX;
+      track.style.transition = "none";
+    }, { passive: true });
+
+    carousel.addEventListener("touchmove", (e) => {
+      if (!dragging) return;
+      currentX = e.touches[0].clientX;
+      const dx = currentX - startX;
+      const pct = (dx / carousel.clientWidth) * 100;
+      track.style.transform = `translateX(${(-idx * 100) + pct}%)`;
+    }, { passive: true });
+
+    carousel.addEventListener("touchend", () => {
+      if (!dragging) return;
+      dragging = false;
+      track.style.transition = "transform 220ms ease";
+
+      const dx = currentX - startX;
+      const threshold = Math.min(80, carousel.clientWidth * 0.18);
+      if (dx > threshold) setIndex(idx - 1);
+      else if (dx < -threshold) setIndex(idx + 1);
+      else apply();
+    });
+
+    // desktop drag opcional
+    let mouseDown = false;
+    let mStartX = 0;
+    let mX = 0;
+
+    carousel.addEventListener("mousedown", (e) => {
+      mouseDown = true;
+      mStartX = e.clientX;
+      mX = mStartX;
+      track.style.transition = "none";
+    });
+
+    window.addEventListener("mousemove", (e) => {
+      if (!mouseDown) return;
+      mX = e.clientX;
+      const dx = mX - mStartX;
+      const pct = (dx / carousel.clientWidth) * 100;
+      track.style.transform = `translateX(${(-idx * 100) + pct}%)`;
+    });
+
+    window.addEventListener("mouseup", () => {
+      if (!mouseDown) return;
+      mouseDown = false;
+      track.style.transition = "transform 220ms ease";
+
+      const dx = mX - mStartX;
+      const threshold = Math.min(80, carousel.clientWidth * 0.18);
+      if (dx > threshold) setIndex(idx - 1);
+      else if (dx < -threshold) setIndex(idx + 1);
+      else apply();
+    });
+  }
+
+  /* ===== PDP ===== */
   const params = new URLSearchParams(location.search);
   const id = params.get("id");
 
-  const imgEl = document.getElementById("pdpImg");
+  const mediaContainer = document.getElementById("pdpMedia");
   const titleEl = document.getElementById("pdpTitle");
   const sizeEl = document.getElementById("pdpSize");
   const priceEl = document.getElementById("pdpPrice");
   const descEl = document.getElementById("pdpDesc");
   const reservedBox = document.getElementById("reservedBox");
   const buyBtn = document.getElementById("buyBtn");
+  const editBuyerBtn = document.getElementById("editBuyerBtn");
+  const relatedGrid = document.getElementById("relatedGrid");
 
   if (!id) {
-    titleEl.textContent = "Item não encontrado";
-    buyBtn.disabled = true;
+    location.href = "index.html";
   } else {
-    const ref = doc(db, "produtos", id);
-    const snap = await getDoc(ref);
-
+    const snap = await getDoc(doc(db, "produtos", id));
     if (!snap.exists()) {
-      titleEl.textContent = "Item não encontrado";
-      buyBtn.disabled = true;
+      location.href = "index.html";
     } else {
       const p = snap.data();
-      const fotos = Array.isArray(p.fotos) ? p.fotos.filter(Boolean) : [];
 
-      imgEl.src = fotos[0] || "https://picsum.photos/400/400?fallback";
+      // ✅ REGRA CLIENTE: se não for disponível, some do site (redirect)
+      // Se você quiser permitir "reservado" como visível, troque a condição para: p.status === "vendido"
+      if (p.status !== "disponivel") {
+        location.href = "index.html";
+      }
+
+      const fotos = Array.isArray(p.fotos) ? p.fotos.filter(Boolean) : [];
+      renderCarousel(mediaContainer, fotos);
+
       titleEl.textContent = p.titulo || "Sem título";
       sizeEl.textContent = `Tamanho: ${p.tamanho || "-"}`;
       priceEl.textContent = formatBRL(p.preco ?? 0);
       descEl.textContent = p.descricao || "";
 
-      if (p.status === "reservado") {
-        reservedBox.style.display = "block";
-      }
+      // (Como só entra aqui se for disponível, esse bloco não aparece)
+      if (p.status === "reservado") reservedBox.style.display = "block";
 
-      // WhatsApp (por enquanto só com link do item)
-      const siteUrl = location.origin + location.pathname.replace("item.html", "") + `item.html?id=${id}`;
-      const msg = encodeURIComponent(
-        `Olá! Tenho interesse neste item:\n${titleEl.textContent}\n${siteUrl}`
+      buyBtn.onclick = () => {
+        if (!buyerDataComplete()) {
+          openModal(true, id);
+          return;
+        }
+        openWhats(id);
+      };
+
+      editBuyerBtn.onclick = () => openModal(false, null);
+
+      // Outros itens (disponíveis)
+      const q = query(
+        collection(db, "produtos"),
+        where("status", "==", "disponivel"),
+        orderBy("criadoEm", "desc"),
+        limit(12)
       );
 
-      // TODO: trocar pelo número da sua esposa
-      const phone = "55SEU_NUMERO_AQUI";
-      buyBtn.onclick = () => {
-        window.open(`https://wa.me/${phone}?text=${msg}`, "_blank");
-      };
+      const rs = await getDocs(q);
+      const outros = [];
+      rs.forEach(d => {
+        if (d.id === id) return;
+        outros.push({ id: d.id, ...d.data() });
+      });
+
+      relatedGrid.innerHTML = "";
+      outros.slice(0, 6).forEach(o => {
+        const fotosO = Array.isArray(o.fotos) ? o.fotos.filter(Boolean) : [];
+        const foto = fotosO[0] || "https://picsum.photos/400/400?other";
+        const a = document.createElement("a");
+        a.className = "related-card";
+        a.href = `item.html?id=${o.id}`;
+        a.innerHTML = `
+          <img src="${foto}" alt="${(o.titulo || "").replace(/"/g, "")}">
+          <div class="related-body">
+            <div class="related-title">${o.titulo || "Produto"}</div>
+            <p class="related-meta">${o.tamanho ? `Tam: ${o.tamanho}` : ""}</p>
+            <div class="related-price">${formatBRL(o.preco ?? 0)}</div>
+          </div>
+        `;
+        relatedGrid.appendChild(a);
+      });
+
+      if (outros.length === 0) {
+        relatedGrid.innerHTML = `<div style="opacity:.7; font-size:13px;">Sem outros itens disponíveis no momento.</div>`;
+      }
     }
   }
 </script>
