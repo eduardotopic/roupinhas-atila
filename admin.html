@@ -2,51 +2,323 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Admin · Roupinhas do Átila</title>
+
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+  <style>
+    :root{
+      --bg: #0b0b10;
+      --card: rgba(255,255,255,.08);
+      --card2: rgba(255,255,255,.06);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.65);
+      --border: rgba(255,255,255,.14);
+      --accent: #6ee7ff;
+      --accent2: #a78bfa;
+      --danger: #ff5a7a;
+      --ok: #34d399;
+      --radius: 18px;
+      --shadow: 0 20px 60px rgba(0,0,0,.55);
+    }
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body{
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      color: var(--text);
+      background:
+        radial-gradient(900px 500px at 10% 0%, rgba(167,139,250,.25), transparent 60%),
+        radial-gradient(800px 500px at 90% 10%, rgba(110,231,255,.18), transparent 55%),
+        radial-gradient(900px 600px at 40% 100%, rgba(52,211,153,.12), transparent 60%),
+        var(--bg);
+      padding: env(safe-area-inset-top) 16px env(safe-area-inset-bottom);
+      display: grid;
+      place-items: center;
+    }
+
+    .wrap{
+      width: min(420px, 100%);
+      padding: 14px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap: 12px;
+      margin: 8px 6px 14px;
+    }
+
+    .logo{
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(110,231,255,.22), rgba(167,139,250,.22));
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      display:grid;
+      place-items:center;
+      font-size: 22px;
+    }
+
+    h1{
+      font-size: 20px;
+      margin: 0;
+      letter-spacing: .2px;
+    }
+
+    .subtitle{
+      margin: 2px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .card{
+      background: linear-gradient(180deg, var(--card), var(--card2));
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 16px;
+      backdrop-filter: blur(10px);
+    }
+
+    label{
+      display:block;
+      font-size: 13px;
+      color: var(--muted);
+      margin: 12px 2px 6px;
+    }
+
+    input{
+      width: 100%;
+      padding: 14px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(0,0,0,.25);
+      color: var(--text);
+      outline: none;
+      font-size: 16px; /* importante no iOS para não dar zoom */
+    }
+
+    input:focus{
+      border-color: rgba(110,231,255,.55);
+      box-shadow: 0 0 0 4px rgba(110,231,255,.12);
+    }
+
+    .row{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .check{
+      display:flex;
+      gap: 10px;
+      align-items:center;
+      color: var(--muted);
+      font-size: 13px;
+      user-select:none;
+    }
+
+    .check input{
+      width: 18px;
+      height: 18px;
+      padding: 0;
+      margin: 0;
+      border-radius: 6px;
+    }
+
+    button{
+      width: 100%;
+      margin-top: 14px;
+      padding: 14px 14px;
+      border-radius: 14px;
+      border: 0;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 16px;
+      color: rgba(10,10,14,.95);
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      box-shadow: 0 14px 40px rgba(110,231,255,.14);
+      transition: transform .06s ease;
+    }
+
+    button:active{ transform: scale(.99); }
+    button[disabled]{ opacity: .65; cursor:not-allowed; }
+
+    .msg{
+      margin-top: 12px;
+      font-size: 13px;
+      color: var(--muted);
+      min-height: 18px;
+    }
+    .msg.err{ color: var(--danger); }
+    .msg.ok{ color: var(--ok); }
+
+    .hint{
+      margin-top: 10px;
+      color: rgba(255,255,255,.52);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .foot{
+      margin-top: 12px;
+      text-align:center;
+      color: rgba(255,255,255,.45);
+      font-size: 12px;
+    }
+  </style>
 </head>
+
 <body>
-  <h1>Login Admin</h1>
+  <div class="wrap">
+    <div class="brand">
+      <div class="logo">👶</div>
+      <div>
+        <h1>Admin</h1>
+        <p class="subtitle">Entre para cadastrar e gerenciar produtos.</p>
+      </div>
+    </div>
 
-  <input id="email" placeholder="Email" />
-  <input id="password" type="password" placeholder="Senha" />
-  <button id="login">Entrar</button>
+    <div class="card">
+      <label for="email">E-mail</label>
+      <input id="email"
+             type="email"
+             inputmode="email"
+             placeholder="seuemail@exemplo.com"
+             autocomplete="username"
+             autocapitalize="none"
+             spellcheck="false" />
 
-  <p id="status"></p>
+      <label for="password">Senha</label>
+      <input id="password"
+             type="password"
+             placeholder="Sua senha"
+             autocomplete="current-password" />
+
+      <div class="row">
+        <label class="check">
+          <input id="remember" type="checkbox" />
+          Lembrar e-mail
+        </label>
+        <span style="color: rgba(255,255,255,.45); font-size:12px;">(senha fica no iPhone)</span>
+      </div>
+
+      <button id="login">Entrar</button>
+      <div id="status" class="msg"></div>
+      <div class="hint">
+        Dica: no iPhone, após o primeiro login, o Safari costuma oferecer <b>Salvar Senha</b>.
+        Se não aparecer, verifique Ajustes &gt; Senhas.
+      </div>
+    </div>
+
+    <div class="foot">Roupinhas do Átila · Painel</div>
+  </div>
 
   <script type="module">
     import { auth, db } from "./firebase.js";
     import {
       signInWithEmailAndPassword,
-      onAuthStateChanged
+      onAuthStateChanged,
+      setPersistence,
+      browserLocalPersistence
     } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
     import {
       doc, getDoc
     } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-    const status = document.getElementById("status");
+    const $email = document.getElementById("email");
+    const $password = document.getElementById("password");
+    const $remember = document.getElementById("remember");
+    const $btn = document.getElementById("login");
+    const $status = document.getElementById("status");
 
-    document.getElementById("login").onclick = async () => {
-      try {
-        await signInWithEmailAndPassword(
-          auth,
-          email.value,
-          password.value
-        );
-      } catch (e) {
-        status.innerText = "Erro no login";
+    // Lembrar e-mail (localStorage)
+    const savedEmail = localStorage.getItem("admin_email");
+    if (savedEmail) {
+      $email.value = savedEmail;
+      $remember.checked = true;
+      // foco na senha para ficar mais "app"
+      setTimeout(() => $password.focus(), 50);
+    } else {
+      setTimeout(() => $email.focus(), 50);
+    }
+
+    function setMsg(text, kind = "") {
+      $status.className = "msg" + (kind ? " " + kind : "");
+      $status.textContent = text || "";
+    }
+
+    function friendlyAuthError(code) {
+      switch (code) {
+        case "auth/invalid-credential":
+        case "auth/wrong-password":
+        case "auth/user-not-found":
+          return "E-mail ou senha incorretos.";
+        case "auth/too-many-requests":
+          return "Muitas tentativas. Aguarde um pouco e tente novamente.";
+        case "auth/network-request-failed":
+          return "Falha de rede. Verifique sua conexão.";
+        default:
+          return "Não foi possível entrar. Tente novamente.";
       }
-    };
+    }
 
-    onAuthStateChanged(auth, async user => {
+    // Mantém sessão (pra você não ter que logar toda hora)
+    await setPersistence(auth, browserLocalPersistence);
+
+    $btn.addEventListener("click", async () => {
+      setMsg("");
+      $btn.disabled = true;
+
+      const email = ($email.value || "").trim();
+      const password = $password.value || "";
+
+      try {
+        if (!email || !password) {
+          setMsg("Preencha e-mail e senha.", "err");
+          return;
+        }
+
+        await signInWithEmailAndPassword(auth, email, password);
+
+        if ($remember.checked) localStorage.setItem("admin_email", email);
+        else localStorage.removeItem("admin_email");
+
+        setMsg("Entrando…", "");
+      } catch (e) {
+        setMsg(friendlyAuthError(e.code), "err");
+      } finally {
+        $btn.disabled = false;
+      }
+    });
+
+    // Enter para enviar
+    [$email, $password].forEach(el => el.addEventListener("keydown", (ev) => {
+      if (ev.key === "Enter") $btn.click();
+    }));
+
+    // Após login, checa admin e redireciona
+    onAuthStateChanged(auth, async (user) => {
       if (!user) return;
+
+      setMsg("Validando permissão…", "");
 
       const ref = doc(db, "users", user.uid);
       const snap = await getDoc(ref);
 
       if (snap.exists() && snap.data().role === "admin") {
+        setMsg("Ok! Abrindo painel…", "ok");
         window.location.href = "admin-produtos.html";
       } else {
-        status.innerText = "Usuário não é admin";
+        setMsg("Usuário não é admin.", "err");
       }
     });
   </script>
